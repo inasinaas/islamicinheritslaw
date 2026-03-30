@@ -2,8 +2,12 @@ import streamlit as st
 from google import genai
 from docx import Document
 
-# Initialize Gemini client
-F6PJf6z1DDrE = genai.Client(api_key="AIzaSyD5axNw7pIBZwYeBNEQ60T5AS70KY2zlO0")
+# Initialize Gemini client with secrets
+try:
+    F6PJf6z1DDrE = genai.Client(api_key=st.secrets["GOOGLE_API_KEY"])
+except:
+    # Fallback for local testing
+    F6PJf6z1DDrE = genai.Client(api_key="AIzaSyBnmvzruiBZrCA8aBSA8s55TtiZCr59Gfk")
 
 # Read knowledge base from docx
 @st.cache_resource
@@ -31,12 +35,16 @@ st.caption("Islamic Inheritance Law Assistant")
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# Initialize chat session in session_state (not cached) to keep it alive
+# Initialize chat session
 if "chat" not in st.session_state:
-    st.session_state.chat = F6PJf6z1DDrE.chats.create(
-        model="gemini-2.5-flash",
-        config={"system_instruction": prompt}
-    )
+    try:
+        st.session_state.chat = F6PJf6z1DDrE.chats.create(
+            model="gemini-1.5-flash",  # Changed to stable model
+            config={"system_instruction": prompt}
+        )
+    except Exception as e:
+        st.error(f"Error initializing chat: {e}")
+        st.stop()
 
 # Display chat history
 for message in st.session_state.messages:
@@ -52,10 +60,12 @@ if user_input := st.chat_input("Type your question here..."):
     
     with st.chat_message("assistant"):
         with st.spinner("Thinking..."):
-            response = st.session_state.chat.send_message(user_input)
-            bot_response = response.text
-            st.markdown(bot_response)
-    
-    st.session_state.messages.append({"role": "assistant", "content": bot_response})
+            try:
+                response = st.session_state.chat.send_message(user_input)
+                bot_response = response.text
+                st.markdown(bot_response)
+                st.session_state.messages.append({"role": "assistant", "content": bot_response})
+            except Exception as e:
+                st.error(f"Error: {e}")
 
 # UI CODE - EDIT ABOVE THIS LINE ============================================
