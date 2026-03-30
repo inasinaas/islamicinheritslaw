@@ -7,7 +7,7 @@ try:
     F6PJf6z1DDrE = genai.Client(api_key=st.secrets["GOOGLE_API_KEY"])
 except:
     # Fallback for local testing
-    F6PJf6z1DDrE = genai.Client(api_key="AIzaSyBnmvzruiBZrCA8aBSA8s55TtiZCr59Gfk")
+    F6PJf6z1DDrE = genai.Client(api_key="AIzaSyC3-wLNIpYXqmAWZQZdcVT-tSx0dMYo5mw")
 
 # Read knowledge base from docx
 @st.cache_resource
