@@ -39,7 +39,7 @@ if "messages" not in st.session_state:
 if "chat" not in st.session_state:
     try:
         st.session_state.chat = F6PJf6z1DDrE.chats.create(
-            model="gemini-1.5-flash-002",  # Changed to stable model
+            model="gemini-1.5-pro",  # Changed to stable model
             config={"system_instruction": prompt}
         )
     except Exception as e:
