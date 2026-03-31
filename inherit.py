@@ -4,10 +4,10 @@ from docx import Document
 
 # Initialize Gemini client with secrets
 try:
-    F6PJf6z1DDrE = genai.Client(api_key=st.secrets["GOOGLE_API_KEY"])
+    F6PJf6z1DDrE = genai.Client(api_key=st.secrets["AIzaSyCE1n6MTtrBV_0-DYf1M_Kr826WdObqFis"])
 except:
     # Fallback for local testing
-    F6PJf6z1DDrE = genai.Client(api_key="AIzaSyC3-wLNIpYXqmAWZQZdcVT-tSx0dMYo5mw")
+    F6PJf6z1DDrE = genai.Client(api_key="AIzaSyCE1n6MTtrBV_0-DYf1M_Kr826WdObqFis")
 
 # Read knowledge base from docx
 @st.cache_resource
